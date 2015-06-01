@@ -1,6 +1,8 @@
 public class Board {
 
-    private int [][] boardNumbers = new int [4][4];
+    final static public int SIZE = 4; // Must be a squared number
+
+    private int [][] boardNumbers = new int [SIZE][SIZE];
     
     public void setNumber ( int x, int y, int num ) {
         boardNumbers[y][x] = num;
