@@ -2,6 +2,11 @@ public class Solver {
 
     private Board board;
     
+    private int current_x = 0;
+    private int current_y = 0;
+    
+    private boolean lastBacktrack = false;
+    
     Solver(Board b) {
         board = b;
     }
@@ -54,8 +59,54 @@ public class Solver {
         return (board.getNumber(x, y) == 0);
     }
 
-    public void nextStep () {
+    public boolean nextStep () {
+        if (board.isConst(current_x, current_y)) {
+            if (lastBacktrack)
+                return backtrack();
+            lastBacktrack = false;
+            
+            return advanceCursor();
+        } else {
+            if (isValid(current_x, current_y, board.getNumber(current_x, current_y)))
+                return advanceCursor();
+            else {
+                if (board.getNumber(current_x, current_y) == Board.SIZE) {
+                    lastBacktrack = true;
+                    return backtrack();
+                } else
+                    board.setNumber(current_x, current_y, board.getNumber(current_x, current_y) + 1);
+            }
+        }
         
+        return false;
+    }
+    
+    private boolean advanceCursor() {
+        if (current_x == Board.SIZE - 1) {
+            if (current_y == Board.SIZE - 1)
+                return true;
+                
+            current_x = 0;
+            current_y++;
+        } else {
+            current_x++;
+        }
+        
+        return false;
+    }
+    
+    private boolean backtrack() {
+        if (current_x == 0) {
+            if (current_y == 0)
+                return true;
+            
+            current_x = Board.SIZE - 1;
+            current_y--;
+        } else {
+            current_x--;
+        }
+        
+        return false;
     }
     
     public Board getBoard () {
