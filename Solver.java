@@ -67,6 +67,11 @@ public class Solver {
             
             return advanceCursor();
         } else {
+            if (board.getNumber(current_x, current_y) == 0) {
+                board.setNumber(current_x, current_y, board.getNumber(current_x, current_y) + 1);
+                return false;
+            }
+            
             if (isValid(current_x, current_y, board.getNumber(current_x, current_y)))
                 return advanceCursor();
             else {

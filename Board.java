@@ -5,6 +5,14 @@ public class Board {
     private int [][] boardNumbers = new int [SIZE][SIZE];
     private boolean [][] boardConst = new boolean [SIZE][SIZE];
     
+    Board() {
+        for (int i = 0 ; i < SIZE; i++) {
+            for (int j = 0 ; j < SIZE; j++) {
+                boardConst[i][j] = false;
+            }
+        }
+    }
+    
     public void setNumber ( int x, int y, int num ) {
         boardNumbers[y][x] = num;
     }
