@@ -56,15 +56,19 @@ public class Sudoku {
         while (!solver.nextStep()) {
             compteur++;
             // try {
-            //     Thread.sleep(50);
+            //     Thread.sleep(25);
             // } catch (Exception e) {}
-            // System.out.println();
 
-
-
-
+            double pourcentage = (compteur / 23930039.0) * 100.0;
+            //System.out.println(" Etape numero : " + compteur );
+            if (compteur % 10000 == 0)
+                System.out.printf("\r%f %% effectues", pourcentage);
         }
 
+        double pourcentage = (compteur / 23930039.0) * 100.0;
+        System.out.printf("\r%f %% effectues", pourcentage);
+
+        System.out.println();
         Board b = solver.getBoard();
         for (int i = 0; i < Board.SIZE; i++) {
             System.out.println("+---+---+---+---+---+---+---+---+---+");
@@ -81,7 +85,6 @@ public class Sudoku {
         }
         System.out.println("+---+---+---+---+---+---+---+---+---+");
 
-        System.out.println(compteur);
     }
 
 }
