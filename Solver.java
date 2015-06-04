@@ -66,20 +66,22 @@ public class Solver {
 
             return advanceCursor();
         } else {
-            lastBacktrack = false;
             if (board.getNumber(current_x, current_y) == 0) {
                 board.setNumber(current_x, current_y, board.getNumber(current_x, current_y) + 1);
                 return false;
             }
 
-            if (isValid(current_x, current_y, board.getNumber(current_x, current_y)))
+            if (isValid(current_x, current_y, board.getNumber(current_x, current_y)) && !lastBacktrack)
                 return advanceCursor();
             else {
                 if (board.getNumber(current_x, current_y) == Board.SIZE) {
                     lastBacktrack = true;
+                    board.setNumber(current_x, current_y, 0);
                     return backtrack();
-                } else
+                } else {
+                    lastBacktrack = false;
                     board.setNumber(current_x, current_y, board.getNumber(current_x, current_y) + 1);
+                }
             }
         }
 

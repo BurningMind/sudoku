@@ -1,6 +1,6 @@
 public class Board {
 
-    final static public int SIZE = 4; // Must be a squared number
+    final static public int SIZE = 9; // Must be a squared number
 
     private int [][] boardNumbers = new int [SIZE][SIZE];
     private boolean [][] boardConst = new boolean [SIZE][SIZE];
