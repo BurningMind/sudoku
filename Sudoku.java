@@ -52,34 +52,36 @@ public class Sudoku {
         board.setConst(4, 8, true);
 
         Solver solver = new Solver(board);
-
+        int compteur = 0;
         while (!solver.nextStep()) {
+            compteur++;
+            // try {
+            //     Thread.sleep(50);
+            // } catch (Exception e) {}
+            // System.out.println();
 
-            try {
-                 Thread.sleep(1000);
-             } catch (Exception e) {}
 
-             System.out.println();
-
-        Board b = solver.getBoard();
-            for (int i = 0; i < Board.SIZE; i++) {
-                System.out.println("+---+---+---+---+---+---+---+---+---+");
-                System.out.print("| ");
-                for (int j = 0; j < Board.SIZE; j++) {
-					if (b.getNumber(j,i) == 0 ) {
-						System.out.print(" " + " | ");
-					}
-					else {
-                    System.out.print(b.getNumber(j, i) + " | ");
-					}
-                }
-                System.out.println();
-            }
-            System.out.println("+---+---+---+---+---+---+---+---+---+");
 
 
         }
 
+        Board b = solver.getBoard();
+        for (int i = 0; i < Board.SIZE; i++) {
+            System.out.println("+---+---+---+---+---+---+---+---+---+");
+            System.out.print("| ");
+            for (int j = 0; j < Board.SIZE; j++) {
+                if (b.getNumber(j,i) == 0 ) {
+                    System.out.print(" " + " | ");
+                }
+                else {
+                System.out.print(b.getNumber(j, i) + " | ");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println("+---+---+---+---+---+---+---+---+---+");
+
+        System.out.println(compteur);
     }
 
 }
