@@ -54,23 +54,25 @@ public class Sudoku {
         Solver solver = new Solver(board);
 
         while (!solver.nextStep()) {
-            // try {
-            //     Thread.sleep(10);
-            // } catch (Exception e) {}
-            //
-            // System.out.println();
+
+            try {
+                 Thread.sleep(250);
+             } catch (Exception e) {}
+            
+             System.out.println();
 
 
-
-
-        }
-        Board b = solver.getBoard();
-        for (int i = 0; i < Board.SIZE; i++) {
-            System.out.println("___________________________________");
-            for (int j = 0; j < Board.SIZE; j++) {
-                System.out.print(b.getNumber(j, i) + " | ");
+			Board b = solver.getBoard();
+            for (int i = 0; i < Board.SIZE; i++) {
+                System.out.println("+---+---+---+---+---+---+---+---+---+");
+                System.out.print("| ");
+                for (int j = 0; j < Board.SIZE; j++) {
+                    System.out.print(b.getNumber(j, i) + " | ");
+                }
+                System.out.println();
             }
-            System.out.println();
+            System.out.println("+---+---+---+---+---+---+---+---+---+");
+
         }
     }
 
