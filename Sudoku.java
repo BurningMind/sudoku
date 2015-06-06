@@ -72,19 +72,56 @@ public class Sudoku {
         System.out.println();
         Board b = solver.getBoard();
         for (int i = 0; i < Board.SIZE; i++) {
-            System.out.println("+---+---+---+---+---+---+---+---+---+");
-            System.out.print("| ");
+
+            if (i%((int)Math.sqrt(Board.SIZE))==0) {
+                afficherLigne(true);
+            } else {
+                afficherLigne(false);
+            }
+
+
             for (int j = 0; j < Board.SIZE; j++) {
+                if(j%((int)Math.sqrt(Board.SIZE))==0) {
+                    System.out.print("| ");
+                } else {
+                    System.out.print("  ");
+                }
+
                 if (b.getNumber(j,i) == 0 ) {
-                    System.out.print(" " + " | ");
+                    System.out.print("  ");
                 }
                 else {
-                System.out.print(b.getNumber(j, i) + " | ");
+                    System.out.print(b.getNumber(j, i) + " ");
                 }
             }
-            System.out.println();
+            System.out.println("|");
         }
-        System.out.println("+---+---+---+---+---+---+---+---+---+");
+        afficherLigne(true);
+
+    }
+
+    public static void afficherLigne(boolean show) {
+        for ( int j = 0; j < Board.SIZE; j++) {
+            if (show) {
+                if ( j%((int)Math.sqrt(Board.SIZE))==0 ) {
+                    System.out.print("+---");
+                } else {
+                    System.out.print("----");
+                }
+            } else {
+                if ( j%((int)Math.sqrt(Board.SIZE))==0 ) {
+                    System.out.print("|   ");
+                } else {
+                    System.out.print("    ");
+                }
+            }
+        }
+
+        if (show) {
+            System.out.println("+");
+        } else {
+            System.out.println("|");
+        }
 
     }
 
