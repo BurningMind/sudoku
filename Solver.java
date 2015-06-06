@@ -1,4 +1,10 @@
+import java.util.HashSet; //We import the class Set
+import java.util.Set;
+import java.util.ArrayList; //We import the class ArrayList
+
 public class Solver {
+
+    private ArrayList< ArrayList< Set<Integer> >> testedNumbers = new ArrayList< ArrayList< Set<Integer> >>(Board.SIZE);
 
     private Board board;
 
@@ -8,6 +14,12 @@ public class Solver {
     private boolean lastBacktrack = false;
 
     Solver(Board b) {
+        for ( int i = 0; i< Board.SIZE; i++) {
+            testedNumbers.add(i, new ArrayList < Set<Integer>>(Board.SIZE));
+            for ( int j = 0; j < Board.SIZE; j++ ) {
+                testedNumbers.get(i).add(j, new HashSet<Integer> ());
+            }
+        }
         board = b;
     }
 
@@ -67,20 +79,32 @@ public class Solver {
             return advanceCursor();
         } else {
             if (board.getNumber(current_x, current_y) == 0) {
-                board.setNumber(current_x, current_y, board.getNumber(current_x, current_y) + 1);
+                int a;
+                a = (int)(Math.random()*Board.SIZE+1);
+                board.setNumber(current_x, current_y, a);
+                testedNumbers.get(current_y).get(current_x).add (a);
                 return false;
             }
 
             if (isValid(current_x, current_y, board.getNumber(current_x, current_y)) && !lastBacktrack)
                 return advanceCursor();
             else {
-                if (board.getNumber(current_x, current_y) == Board.SIZE) {
+                if (testedNumbers.get(current_y).get(current_x).size() == Board.SIZE) {
                     lastBacktrack = true;
                     board.setNumber(current_x, current_y, 0);
+                    testedNumbers.get(current_y).get(current_x).clear();
                     return backtrack();
                 } else {
                     lastBacktrack = false;
-                    board.setNumber(current_x, current_y, board.getNumber(current_x, current_y) + 1);
+                    int a;
+                    while (true){
+                        a = (int)(Math.random()*Board.SIZE+1);
+                        if (!testedNumbers.get(current_y).get(current_x).contains (a)){
+                            break;
+                        }
+                    }
+                    board.setNumber(current_x, current_y, a);
+                    testedNumbers.get(current_y).get(current_x).add (a);
                 }
             }
         }
