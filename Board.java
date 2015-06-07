@@ -36,8 +36,10 @@ public class Board {
 
                 if (getNumber(j,i) == 0 ) {
                     str += "  ";
+                } else if (getNumber(j, i) == 10){
+                    str += "X ";
                 } else {
-                    str += getNumber(j, i) + " ";
+                    str += getNumber(j,i) + " ";
                 }
             }
             str += "|" + "\n";
