@@ -7,16 +7,23 @@ public class Generator {
     public enum DIFFICULTY {
         EASY,
         MEDIUM,
-        HARD
+        HARD,
+        EXTREME
     }
 
     public Board generateSudoku (DIFFICULTY difficulty) { //degré de difficulté ?
         int lowestSudoku = Board.SIZE * Board.SIZE;
+        int attempts = 0;
         while (true) {
             ArrayList < Board > steps = new ArrayList < Board > ();
             Board generatedSudoku = new Board();
             Solver solver = new Solver ( generatedSudoku );
             solver.solveBoard();
+            for (int i = 0 ; i < Board.SIZE; i++) {
+                for (int j = 0; j < Board.SIZE; j++) {
+                    generatedSudoku.setConst(i, j, true);
+                }
+            }
             steps.add(generatedSudoku);
 
             while(true){
@@ -30,13 +37,21 @@ public class Generator {
                 }
             }
 
-            // if (lowestSudoku >= (Board.SIZE * Board.SIZE - steps.size())) {
-            //     lowestSudoku = (Board.SIZE * Board.SIZE - steps.size());
-            //     System.out.println("\nFound a sudoku with " + lowestSudoku + " (" + steps.size() + " numbers removed).");
-            //     System.out.print("Tried " + attempts + " sudokus.");
-            // } else {
-            //     System.out.print("\rTried " + attempts + " sudokus.");
-            // }
+            attempts++;
+
+            if (lowestSudoku > (Board.SIZE * Board.SIZE - steps.size())) {
+                lowestSudoku = (Board.SIZE * Board.SIZE - steps.size());
+                System.out.println("\nFound a sudoku with " + lowestSudoku + " (" + steps.size() + " numbers removed).");
+                System.out.print("Tried " + attempts + " sudokus.");
+            } else {
+                System.out.print("\rTried " + attempts + " sudokus.");
+            }
+
+            if (steps.size() > (Board.SIZE * Board.SIZE) / 1.5) {
+                if (difficulty == DIFFICULTY.EXTREME) {
+                    return steps.get(steps.size() - 1);
+                }
+            }
 
             if (steps.size() > (Board.SIZE * Board.SIZE) / 1.6) {
                 if (difficulty == DIFFICULTY.HARD) {
@@ -93,9 +108,9 @@ public class Generator {
         while (true){
             x = (int)(Math.random()*Board.SIZE);
             y = (int)(Math.random()*Board.SIZE);
-
             if (board.getNumber(x, y) != 0 ) {
                 board.setNumber(x, y, 0);
+                board.setConst(x, y, false);
                 break;
             }
         }
