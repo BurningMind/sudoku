@@ -5,6 +5,19 @@ public class Board {
     private int [][] boardNumbers = new int [SIZE][SIZE];
     private boolean [][] boardConst = new boolean [SIZE][SIZE];
 
+    public Board() {
+        
+    }
+
+    public Board(Board otherBoard) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                boardNumbers[i][j] = otherBoard.boardNumbers[i][j];
+                boardConst[i][j] = otherBoard.boardConst[i][j];
+            }
+        }
+    }
+
     public void setNumber ( int x, int y, int num ) {
         boardNumbers[y][x] = num;
     }

@@ -140,7 +140,14 @@ public class Solver {
         return false;
     }
 
+
     public Board getBoard () {
         return board;
     }
+
+    public void solveBoard () {
+        while (!nextStep());
+    }
+
+
 }
