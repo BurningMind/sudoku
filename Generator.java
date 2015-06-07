@@ -1,10 +1,66 @@
+import java.util.ArrayList;
+
 public class Generator {
 
-    private static final int UNICITY_ITERATIONS = 10;
+    private static final int UNICITY_ITERATIONS = 3;
 
-    // public Board generateSudoku () { //degré de difficulté ?
-    //
-    // }
+    public enum DIFFICULTY {
+        EASY,
+        MEDIUM,
+        HARD
+    }
+
+    public Board generateSudoku (DIFFICULTY difficulty) { //degré de difficulté ?
+        int lowestSudoku = Board.SIZE * Board.SIZE;
+        while (true) {
+            ArrayList < Board > steps = new ArrayList < Board > ();
+            Board generatedSudoku = new Board();
+            Solver solver = new Solver ( generatedSudoku );
+            solver.solveBoard();
+            steps.add(generatedSudoku);
+
+            while(true){
+                Board b = new Board(generatedSudoku);
+                b = deleteNumber(b);
+                if (verifyUnicity(b)) {
+                    steps.add(b);
+                    generatedSudoku = b;
+                } else {
+                    break;
+                }
+            }
+
+            // if (lowestSudoku >= (Board.SIZE * Board.SIZE - steps.size())) {
+            //     lowestSudoku = (Board.SIZE * Board.SIZE - steps.size());
+            //     System.out.println("\nFound a sudoku with " + lowestSudoku + " (" + steps.size() + " numbers removed).");
+            //     System.out.print("Tried " + attempts + " sudokus.");
+            // } else {
+            //     System.out.print("\rTried " + attempts + " sudokus.");
+            // }
+
+            if (steps.size() > (Board.SIZE * Board.SIZE) / 1.6) {
+                if (difficulty == DIFFICULTY.HARD) {
+                    return steps.get(steps.size() - 1);
+                } else if (difficulty == DIFFICULTY.MEDIUM) {
+                    return steps.get((int)((steps.size() - 1) * 0.72));
+                } else if (difficulty == DIFFICULTY.EASY) {
+                    return steps.get((int)((steps.size() - 1) * 0.44));
+                }
+            }
+            if (steps.size() > (Board.SIZE * Board.SIZE) / 2.3) {
+                if (difficulty == DIFFICULTY.MEDIUM) {
+                    return steps.get((int)((steps.size() - 1) * 0.95));
+                } else if (difficulty == DIFFICULTY.EASY) {
+                    return steps.get((int)((steps.size() - 1) * 0.6));
+                }
+            }
+            if (steps.size() > (Board.SIZE * Board.SIZE) / 3.2) {
+                if (difficulty == DIFFICULTY.EASY) {
+                    return steps.get((int)((steps.size() - 1) * 0.8));
+                }
+            }
+        }
+    }
 
     public boolean verifyUnicity (Board b ) {
         Board[] boards = new Board[UNICITY_ITERATIONS];
@@ -28,8 +84,23 @@ public class Generator {
         return true;
     }
 
-    // public Board deleteNumber (Board b ) {
-    //
-    // }
+    public Board deleteNumber (Board b) {
+
+        Board board = new Board(b);
+        int x;
+        int y;
+
+        while (true){
+            x = (int)(Math.random()*Board.SIZE);
+            y = (int)(Math.random()*Board.SIZE);
+
+            if (board.getNumber(x, y) != 0 ) {
+                board.setNumber(x, y, 0);
+                break;
+            }
+        }
+
+        return board;
+    }
 
 }
