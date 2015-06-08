@@ -4,10 +4,10 @@ public class Sudoku {
 
     /**
      * Handles command line arguments and first-level logic.
-     * Possible commands (size should most of the time be 4 or 9, the difficulty can be EASY, MEDIUM, HARD, EXTREME):
-     * java Sudoku generate &lt;size&gt; &lt;difficulty&gt;
-     * java Sudoku solve &lt;size&gt;
-     * java Sudoku generate_solve &lt;size&gt; &lt;difficulty&gt;
+     * Possible commands (size should most of the time be 4 or 9, the difficulty can be EASY, MEDIUM, HARD, EXTREME):<br>
+     * java Sudoku generate &lt;size&gt; &lt;difficulty&gt;<br>
+     * java Sudoku solve &lt;size&gt;<br>
+     * java Sudoku generate_solve &lt;size&gt; &lt;difficulty&gt;<br>
      * java Sudoku generate_check &lt;size&gt; &lt;difficulty&gt;
      * @param args The arguments passed to the program.
      */
