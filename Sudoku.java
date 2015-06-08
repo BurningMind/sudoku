@@ -13,13 +13,15 @@ public class Sudoku {
      */
     public static void main (String[] args ) {
         if (args.length < 2) {
-            System.out.println("Not enough arguments.");
+            System.out.println("Error: Not enough arguments.");
+            printUsage();
             return;
         }
 
         if (args[0].contains("generate")) {
             if (args.length != 3) {
-                System.out.println("Invalid argument count.");
+                System.out.println("Error: Invalid argument count.");
+                printUsage();
                 return;
             }
 
@@ -36,7 +38,8 @@ public class Sudoku {
             } else if (args[2].contains("EXTREME")) {
                 difficulty = Generator.DIFFICULTY.EXTREME;
             } else {
-                System.out.println("Invalid difficulty.");
+                System.out.println("Error: Invalid difficulty.");
+                printUsage();
                 return;
             }
 
@@ -57,13 +60,13 @@ public class Sudoku {
                 while(wrong) {
                     wrong = false;
                     board= typeBoard(b);
-                    Solver solver = new Solver (b);
+                    Solver solver = new Solver (board);
                     solver.solveBoard();
 
                     for (int j = 0; j < Board.SIZE && !wrong; j++) {
                         for (int k = 0; k < Board.SIZE && !wrong; k++) {
                             if (b.getNumber(j, k) != board.getNumber(j, k)){
-                                System.out.println ("Invalid Solution");
+                                System.out.println ("Error: Invalid Solution.");
                                 wrong = true;
                             }
                         }
@@ -76,7 +79,8 @@ public class Sudoku {
             }
         } else if (args[0].contains("solve")) {
             if (args.length != 2) {
-                System.out.println("Invalid argument count.");
+                System.out.println("Error: Invalid argument count.");
+                printUsage();
                 return;
             }
 
@@ -99,8 +103,25 @@ public class Sudoku {
             }
         } else {
             System.out.println("Invalid command.");
+            printUsage();
             return;
         }
+    }
+
+    public static void printUsage() {
+        System.out.println();
+        System.out.println("Usage:");
+        System.out.println("java Sudoku generate <size> <difficulty>");
+        System.out.println("\tGenerates a sudoku.");
+        System.out.println("java Sudoku generate_check <size> <difficulty>");
+        System.out.println("\tGenerates a sudoku and lets the user check his/her solution.");
+        System.out.println("java Sudoku generate_solve <size> <difficulty>");
+        System.out.println("\tGenerates a sudoku and solves it.");
+        System.out.println("java Sudoku solve <size>");
+        System.out.println("\tSolves a sudoku given by the user.");
+        System.out.println();
+        System.out.println("size: any squared number, preferrably 4 or 9");
+        System.out.println("difficulty: EASY, MEDIUM, HARD or EXTREME");
     }
 
     /**
