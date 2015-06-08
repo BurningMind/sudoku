@@ -1,9 +1,14 @@
 import java.util.ArrayList;
 
 public class Generator {
-/*We solve the sudoku 3 times. */
-    private static final int UNICITY_ITERATIONS = 3;
-/*We define the enumeration that can only ake the following difficulty values: EASY, MEDIUM, HARD, EXTREME.*/
+    /**
+     * We solve the sudokus 5 times to check for unicity.
+     */
+    private static final int UNICITY_ITERATIONS = 5;
+
+    /**
+     * We define the defficulty that can only take the following difficulty values: EASY, MEDIUM, HARD, EXTREME.
+     */
     public enum DIFFICULTY {
         EASY,
         MEDIUM,
@@ -11,23 +16,30 @@ public class Generator {
         EXTREME
     }
 
-/*Method used to generate a Sudoku. We first generate a complete board. Then we delete random numbers, and verify that
-the sudoku still posseses a unique solution. We stop when the solution is no more unique. According to the difficulty
-chosen, we add a given proportion of numbers to the board. */
-
+    /**
+     * Method used to generate a Sudoku. We first generate a complete board. Then we delete random numbers, and verify that
+     * the sudoku still posseses a unique solution. We stop when the solution is no longer unique. According to the difficulty
+     * chosen, we return a board with different amounts of numbers on the board.
+     * @param difficulty The difficulty of the sudoku to be generated.
+     * @return The generated sudoku.
+     */
     public Board generateSudoku (DIFFICULTY difficulty) {
         int lowestSudoku = Board.SIZE * Board.SIZE;
         int attempts = 0;
+
         while (true) {
             ArrayList < Board > steps = new ArrayList < Board > ();
+
             Board generatedSudoku = new Board();
             Solver solver = new Solver ( generatedSudoku );
             solver.solveBoard();
+
             for (int i = 0 ; i < Board.SIZE; i++) {
                 for (int j = 0; j < Board.SIZE; j++) {
                     generatedSudoku.setConst(i, j, true);
                 }
             }
+
             steps.add(generatedSudoku);
 
             while(true){
@@ -41,8 +53,8 @@ chosen, we add a given proportion of numbers to the board. */
                 }
             }
 
+            // We display a progress log.
             attempts++;
-
             if (lowestSudoku > (Board.SIZE * Board.SIZE - steps.size())) {
                 lowestSudoku = (Board.SIZE * Board.SIZE - steps.size());
                 System.out.println("\nFound a sudoku with " + lowestSudoku + " (" + steps.size() + " numbers removed).");
@@ -56,7 +68,6 @@ chosen, we add a given proportion of numbers to the board. */
                     return steps.get(steps.size() - 1);
                 }
             }
-
             if (steps.size() > (Board.SIZE * Board.SIZE) / 1.6) {
                 if (difficulty == DIFFICULTY.HARD) {
                     return steps.get(steps.size() - 1);
@@ -81,8 +92,11 @@ chosen, we add a given proportion of numbers to the board. */
         }
     }
 
-/*Method used to verify that a Sudoku posseses a unique solution. */
-
+    /**
+     * Method used to verify that a Sudoku posseses a unique solution.
+     * @param b The board we need to verify the unicity of.
+     * @return If the board possesses a unique solution.
+     */
     public boolean verifyUnicity (Board b ) {
         Board[] boards = new Board[UNICITY_ITERATIONS];
 
@@ -105,12 +119,15 @@ chosen, we add a given proportion of numbers to the board. */
         return true;
     }
 
+    /**
+     * Deletes a random number in the board.
+     * @param b The board we need to delete a number from.
+     * @return The board with the deleted number.
+     */
     public Board deleteNumber (Board b) {
-
         Board board = new Board(b);
         int x;
         int y;
-
         while (true){
             x = (int)(Math.random()*Board.SIZE);
             y = (int)(Math.random()*Board.SIZE);

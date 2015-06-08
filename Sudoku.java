@@ -2,6 +2,15 @@ import java.util.Scanner;
 
 public class Sudoku {
 
+    /**
+     * Handles command line arguments and first-level logic.
+     * Possible commands (size should most of the time be 4 or 9, the difficulty can be EASY, MEDIUM, HARD, EXTREME):
+     * java Sudoku generate <size> <difficulty>
+     * java Sudoku solve <size>
+     * java Sudoku generate_solve <size> <difficulty>
+     * java Sudoku generate_check <size> <difficulty>
+     * @param args The arguments passed to the program.
+     */
     public static void main (String[] args ) {
         if (args.length < 2) {
             System.out.println("Not enough arguments.");
@@ -15,6 +24,7 @@ public class Sudoku {
             }
 
             Board.SIZE = Integer.parseInt(args[1]);
+
             Generator.DIFFICULTY difficulty;
 
             if (args[2].contains("EASY")) {
@@ -34,7 +44,6 @@ public class Sudoku {
             Board b = gen.generateSudoku(difficulty);
 
             System.out.println();
-
             System.out.print(b);
 
             if (args[0].contains("solve")) {
@@ -81,15 +90,24 @@ public class Sudoku {
             Solver solver = new Solver(b);
             solver.solveBoard();
 
-            System.out.println("Solved!");
-
-            System.out.print(b);
+            if (b.isSolved()==false){
+                System.out.println("Error: The sudoku cannot be solved");
+            }
+            else {
+                System.out.println("Solved!");
+                System.out.print(b);
+            }
         } else {
             System.out.println("Invalid command.");
             return;
         }
     }
 
+    /**
+     * Prompts the user to enter a board, with a given board as default board.
+     * @param b The template board to fill in the prompt.
+     * @return The board filled by the user.
+     */
     public static Board typeBoard(Board b) {
         Board board = new Board(b);
 
@@ -104,7 +122,7 @@ public class Sudoku {
                 System.out.print("Enter the next number (0 if empty):");
                 int number = scanner.nextInt();
                 if (number> Board.SIZE){
-                    System.out.println("Illegal value, must be less than"+Board.SIZE);
+                    System.out.println("Illegal value, must be less than"+(Board.SIZE + 1));
                     continue;
                 }
                 board.setNumber(x, y, number);

@@ -1,6 +1,6 @@
-import java.util.HashSet; //We import the class Set
+import java.util.HashSet;
 import java.util.Set;
-import java.util.ArrayList; //We import the class ArrayList
+import java.util.ArrayList;
 
 public class Solver {
 
@@ -20,9 +20,17 @@ public class Solver {
                 testedNumbers.get(i).add(j, new HashSet<Integer> ());
             }
         }
+
         board = b;
     }
 
+    /**
+     * Checks if a number can be added at a certain position in the board.
+     * @param x The x coordinate of the cell to be checked.
+     * @param y The y coordinate of the cell to be checked.
+     * @param num The number to check in the cell.
+     * @return If the cell can be set to this number.
+     */
     private boolean isValid ( int x, int y, int num ) {
         // First we check in the column
         for (int i = 0; i < Board.SIZE; i++) {
@@ -66,10 +74,24 @@ public class Solver {
         return true; // We never returned false, hence we can safely return true
     }
 
+    /**
+     * Returns whether the specified cell is empty.
+     * @param x The x coordinate of the cell to be checked.
+     * @param y The y coordinate of the cell to be checked.
+     * @return If the cell is empty or not.
+     */
     private boolean isEmpty ( int x, int y ) {
         return (board.getNumber(x, y) == 0);
     }
 
+    /**
+     * Executes the next solving step in the solving process.
+     * If we find a const, we either advance, or backtrack if the last action was a backtrack.
+     * If we find an empty cell, we just fill it with a random number.
+     * If we find an non-empty cell, we try to fill it with another random number.
+     * In case there is no number left to try, we backtrack.
+     * @return true if the sudoku is solved or if it is impossible, else returns false.
+     */
     public boolean nextStep () {
         if (board.isConst(current_x, current_y)) {
             if (lastBacktrack)
@@ -112,6 +134,10 @@ public class Solver {
         return false;
     }
 
+    /**
+     * Advances the cursor by one cell, taking into account rows and columns.
+     * @eturns true if at the end, else false.
+     */
     private boolean advanceCursor() {
         if (current_x == Board.SIZE - 1) {
             if (current_y == Board.SIZE - 1)
@@ -126,6 +152,10 @@ public class Solver {
         return false;
     }
 
+    /**
+     * Backtracks the cursor by one cell, taking into account rows and columns.
+     * @return true if at the beginning, else false.
+     */
     private boolean backtrack() {
         if (current_x == 0) {
             if (current_y == 0)
@@ -140,11 +170,14 @@ public class Solver {
         return false;
     }
 
-
     public Board getBoard () {
         return board;
     }
 
+    /**
+    * Helper function to execute all steps until one returns true.
+    * Leaves the board in a solved, or any state if impossible.
+    */
     public void solveBoard () {
         while (!nextStep());
     }

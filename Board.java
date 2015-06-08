@@ -9,6 +9,10 @@ public class Board {
 
     }
 
+    /**
+     * Copy constructor.
+     * @param otherBoard Board to make a copy from.
+     */
     public Board(Board otherBoard) {
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
@@ -18,6 +22,11 @@ public class Board {
         }
     }
 
+    /**
+     * Converts a board to string, mostly used for display, but could also be used
+     * for serialization (storing in a file or a db, for example).
+     * @return A string representation of the board.
+     */
     public String toString() {
         String str = "\n";
         for (int i = 0; i < Board.SIZE; i++) {
@@ -49,6 +58,13 @@ public class Board {
         return str;
     }
 
+    /**
+     * REturns a separating row-wise line depending on the boolean passed.
+     * If the bool is true, then the line is a square separation line.
+     * Else, it is just a regular filling line.
+     * @param show Determines if we generate a square line or a filling line.
+     * @return A String representation of the line.
+     */
     private String addLine(boolean show) {
         String str = "";
         for ( int j = 0; j < Board.SIZE; j++) {
@@ -96,7 +112,18 @@ public class Board {
         setNumber(x, y, 0);
     }
 
-
-/* Exception, out of bounds, 10 */
-
+    /**
+     * Checks if the board is solved or not.
+     * @return If the board is solved or not.
+     */
+    public boolean isSolved() {
+        for (int i=0; i<Board.SIZE;i++){
+            for (int j=0; j<Board.SIZE;j++){
+                if  (getNumber(i,j)==0 ) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }
