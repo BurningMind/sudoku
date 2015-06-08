@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
 public class Generator {
-
+/*We solve the sudoku 3 times. */
     private static final int UNICITY_ITERATIONS = 3;
-
+/*We define the enumeration that can only ake the following difficulty values: EASY, MEDIUM, HARD, EXTREME.*/
     public enum DIFFICULTY {
         EASY,
         MEDIUM,
@@ -11,7 +11,11 @@ public class Generator {
         EXTREME
     }
 
-    public Board generateSudoku (DIFFICULTY difficulty) { //degré de difficulté ?
+/*Method used to generate a Sudoku. We first generate a complete board. Then we delete random numbers, and verify that
+the sudoku still posseses a unique solution. We stop when the solution is no more unique. According to the difficulty
+chosen, we add a given proportion of numbers to the board. */
+
+    public Board generateSudoku (DIFFICULTY difficulty) {
         int lowestSudoku = Board.SIZE * Board.SIZE;
         int attempts = 0;
         while (true) {
@@ -76,6 +80,8 @@ public class Generator {
             }
         }
     }
+
+/*Method used to verify that a Sudoku posseses a unique solution. */
 
     public boolean verifyUnicity (Board b ) {
         Board[] boards = new Board[UNICITY_ITERATIONS];

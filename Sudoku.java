@@ -42,6 +42,28 @@ public class Sudoku {
                 solver.solveBoard();
 
                 System.out.print(b);
+            } else if (args[0].contains("check")){
+                boolean wrong = true;
+                Board board= new Board();
+                while(wrong) {
+                    wrong = false;
+                    board= typeBoard(b);
+                    Solver solver = new Solver (b);
+                    solver.solveBoard();
+
+                    for (int j = 0; j < Board.SIZE && !wrong; j++) {
+                        for (int k = 0; k < Board.SIZE && !wrong; k++) {
+                            if (b.getNumber(j, k) != board.getNumber(j, k)){
+                                System.out.println ("Invalid Solution");
+                                wrong = true;
+                            }
+                        }
+                    }
+                }
+
+                System.out.print(board);
+
+                System.out.println("Correct Solution! :D");
             }
         } else if (args[0].contains("solve")) {
             if (args.length != 2) {
@@ -52,29 +74,7 @@ public class Sudoku {
             Board.SIZE = Integer.parseInt(args[1]);
 
             Board b = new Board();
-
-            Scanner scanner = new Scanner(System.in);
-
-            int x = 0;
-            int y = 0;
-            while (true) {
-                b.setNumber(x, y, 10);
-                System.out.print(b);
-                System.out.print("Enter the next number (0 if empty):");
-                int number = scanner.nextInt();
-                b.setNumber(x, y, number);
-
-                if (x == Board.SIZE - 1) {
-                    if (y == Board.SIZE - 1) {
-                        break;
-                    }
-
-                    y++;
-                    x = 0;
-                } else {
-                    x++;
-                }
-            }
+            b = typeBoard(b);
 
             System.out.print("Solving... ");
 
@@ -88,5 +88,40 @@ public class Sudoku {
             System.out.println("Invalid command.");
             return;
         }
+    }
+
+    public static Board typeBoard(Board b) {
+        Board board = new Board(b);
+
+        Scanner scanner = new Scanner(System.in);
+
+        int x = 0;
+        int y = 0;
+        while (true) {
+            if (!board.isConst(x, y)) {
+                board.setNumber(x, y, 10);
+                System.out.print(board);
+                System.out.print("Enter the next number (0 if empty):");
+                int number = scanner.nextInt();
+                if (number> Board.SIZE){
+                    System.out.println("Illegal value, must be less than"+Board.SIZE);
+                    continue;
+                }
+                board.setNumber(x, y, number);
+            }
+
+            if (x == Board.SIZE - 1) {
+                if (y == Board.SIZE - 1) {
+                    break;
+                }
+
+                y++;
+                x = 0;
+            } else {
+                x++;
+            }
+        }
+
+        return board;
     }
 }

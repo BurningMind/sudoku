@@ -19,7 +19,7 @@ public class Board {
     }
 
     public String toString() {
-        String str = "";
+        String str = "\n";
         for (int i = 0; i < Board.SIZE; i++) {
             if (i%((int)Math.sqrt(Board.SIZE))==0) {
                 str += addLine(true);
