@@ -96,7 +96,14 @@ public class Board {
         setNumber(x, y, 0);
     }
 
-
-/* Exception, out of bounds, 10 */
-
+    public boolean isSolved() {
+        for (int i=0; i<Board.SIZE;i++){
+            for (int j=0; j<Board.SIZE;j++){
+                if  (getNumber(i,j)==0 ) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

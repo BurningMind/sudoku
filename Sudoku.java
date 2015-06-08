@@ -15,6 +15,7 @@ public class Sudoku {
             }
 
             Board.SIZE = Integer.parseInt(args[1]);
+
             Generator.DIFFICULTY difficulty;
 
             if (args[2].contains("EASY")) {
@@ -34,7 +35,6 @@ public class Sudoku {
             Board b = gen.generateSudoku(difficulty);
 
             System.out.println();
-
             System.out.print(b);
 
             if (args[0].contains("solve")) {
@@ -63,6 +63,7 @@ public class Sudoku {
                 System.out.print("Enter the next number (0 if empty):");
                 int number = scanner.nextInt();
                 b.setNumber(x, y, number);
+                b.setConst(x, y, true);
 
                 if (x == Board.SIZE - 1) {
                     if (y == Board.SIZE - 1) {
@@ -81,9 +82,13 @@ public class Sudoku {
             Solver solver = new Solver(b);
             solver.solveBoard();
 
-            System.out.println("Solved!");
-
-            System.out.print(b);
+            if (b.isSolved()==false){
+                System.out.println("Error: The sudoku cannot be solved");
+            }
+            else {
+                System.out.println("Solved!");
+                System.out.print(b);
+            }
         } else {
             System.out.println("Invalid command.");
             return;

@@ -20,6 +20,7 @@ public class Solver {
                 testedNumbers.get(i).add(j, new HashSet<Integer> ());
             }
         }
+
         board = b;
     }
 

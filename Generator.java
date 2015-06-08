@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Generator {
 
-    private static final int UNICITY_ITERATIONS = 3;
+    private static final int UNICITY_ITERATIONS = 5;
 
     public enum DIFFICULTY {
         EASY,
@@ -11,19 +11,23 @@ public class Generator {
         EXTREME
     }
 
-    public Board generateSudoku (DIFFICULTY difficulty) { //degré de difficulté ?
+    public Board generateSudoku (DIFFICULTY difficulty) {
         int lowestSudoku = Board.SIZE * Board.SIZE;
         int attempts = 0;
+
         while (true) {
             ArrayList < Board > steps = new ArrayList < Board > ();
+
             Board generatedSudoku = new Board();
             Solver solver = new Solver ( generatedSudoku );
             solver.solveBoard();
+
             for (int i = 0 ; i < Board.SIZE; i++) {
                 for (int j = 0; j < Board.SIZE; j++) {
                     generatedSudoku.setConst(i, j, true);
                 }
             }
+
             steps.add(generatedSudoku);
 
             while(true){
@@ -52,7 +56,6 @@ public class Generator {
                     return steps.get(steps.size() - 1);
                 }
             }
-
             if (steps.size() > (Board.SIZE * Board.SIZE) / 1.6) {
                 if (difficulty == DIFFICULTY.HARD) {
                     return steps.get(steps.size() - 1);
@@ -100,11 +103,9 @@ public class Generator {
     }
 
     public Board deleteNumber (Board b) {
-
         Board board = new Board(b);
         int x;
         int y;
-
         while (true){
             x = (int)(Math.random()*Board.SIZE);
             y = (int)(Math.random()*Board.SIZE);
